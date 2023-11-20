@@ -1,7 +1,10 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
+import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-const Auth = () => {
+const Auth = (props) => {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     name: "", email: "", password: ""
   })
@@ -13,9 +16,34 @@ const Auth = () => {
       [e.target.name]: e.target.value
     }))
   }
+
+  const sendRequest = async (type = 'login') => {
+    const res = await axios.post(`http://localhost:5000/api/user/${type}`, {
+      name: inputs.name,
+      email: inputs.email,
+      password: inputs.password
+    }).catch(err => console.log(err))
+
+    let data = null;
+    if (res) {
+      data = await res.data;
+      console.log(data);
+    }
+
+    return data
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = await sendRequest();
+    (data) && (data.user) && props.setIsLoggedIn(true);
+    (data) && (data.user) && sessionStorage.setItem("userID", data.user._id);
+    (data) && (data.user) && navigate("/blogs");
+  }
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Box maxWidth={400}
           display={"flex"}
           flexDirection={"column"}
@@ -30,7 +58,7 @@ const Auth = () => {
           {isSignup && <TextField name='name' onChange={handleChange} value={inputs.name} placeholder='Name' margin='normal' />} {" "}
           <TextField name='email' onChange={handleChange} type='email' value={inputs.email} placeholder='Email' margin='normal' />
           <TextField name='password' onChange={handleChange} type='password' value={inputs.password} placeholder='Password' margin='normal' />
-          <Button variant='contained' sx={{ borderRadius: 3, marginTop: 3 }} color='warning'>Submit</Button>
+          <Button type='submit' variant='contained' sx={{ borderRadius: 3, marginTop: 3 }} color='warning'>Submit</Button>
           <Button onClick={() => setIsSignup(!isSignup)} sx={{ borderRadius: 3, marginTop: 3 }}>Change to {isSignup ? "Login" : "Signup"}</Button>
         </Box>
       </form>

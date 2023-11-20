@@ -7,7 +7,7 @@ const Header = (props) => {
 
   const signOutSafely = () => {
     props.setIsLoggedIn(false);
-}
+  }
 
   return (
     <AppBar position='sticky' sx={{ background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,19,121,1) 0%, rgba(0,212,255,1) 100%)' }}>

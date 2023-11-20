@@ -38,7 +38,7 @@ const Auth = (props) => {
     e.preventDefault();
     const data = await sendRequest();
     (data) && (data.user) && props.setIsLoggedIn(true);
-    (data) && (data.user) && sessionStorage.setItem("userID", data.user._id);
+    (data) && (data.user) && localStorage.setItem("userId", data.user._id);
     (data) && (data.user) && navigate("/blogs");
   }
 

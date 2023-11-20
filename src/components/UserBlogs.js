@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Blog from './Blog';
 
 const UserBlogs = () => {
-  const [blogs, setBlogs] = useState();
+  const [user, setUser] = useState();
 
   const id = localStorage.getItem("userId");
 
@@ -13,14 +13,15 @@ const UserBlogs = () => {
     return data;
   }
   useEffect(() => {
-    sendRequest().then((data) => setBlogs(data.blogs.blogs))
+    sendRequest().then((data) => setUser(data.user))
   }, [])
-  console.log(blogs);
+  console.log(user);
 
   return (
     <div>
-      {blogs && blogs.map((blog, index) => (
-        <Blog title={blog.title} description={blog.description} imageURL={blog.imageURL} userName={blog.userName} />
+      {user && user.blogs && user.blogs.map((blog, index) => (
+        <Blog
+          key={index} isUser={true} title={blog.title} description={blog.description} imageURL={blog.image} userName={user.name} />
       ))}
     </div>
   )

@@ -1,7 +1,15 @@
-import { Avatar, Card, CardContent, CardHeader, CardMedia, Typography } from '@mui/material'
-import React from 'react'
+import { Avatar, Box, Card, CardContent, CardHeader, CardMedia, IconButton, Typography } from '@mui/material'
+import React from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useNavigate } from 'react-router-dom';
 
-const Blog = ({ title, description, imageURL, userName }) => {
+const Blog = ({ title, description, imageURL, userName, isUser, id }) => {
+    const navigate = useNavigate();
+    const handleEdit = (e) =>{
+        navigate(`myBlogs/:${id}`)
+    }
+    console.log(title, isUser);
     return (
         <div>
             <Card sx={{
@@ -9,6 +17,12 @@ const Blog = ({ title, description, imageURL, userName }) => {
                     boxShadow: "10px 10px 20px #ccc"
                 }
             }}>
+                {isUser && (
+                    <Box display={"flex"}>
+                        <IconButton onClick={handleEdit} sx={{ marginLeft: 'auto' }}><EditIcon /></IconButton>
+                        <IconButton ><DeleteForeverIcon /></IconButton>
+                    </Box>
+                )}
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
@@ -27,7 +41,7 @@ const Blog = ({ title, description, imageURL, userName }) => {
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        {description}
+                        <b>{userName}</b> {": "}{description}
                     </Typography>
                 </CardContent>
 

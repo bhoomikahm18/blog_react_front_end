@@ -1,5 +1,6 @@
 import { Box, Button, InputLabel, TextField, Typography } from '@mui/material'
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 const labelStyles = { mb: 1, mt: 2, fontSize: "24px", fontWeight: "bold" }
 
@@ -8,6 +9,35 @@ const AddBlog = () => {
     title: "", description: "", imageURL: ""
   })
 
+  const handleChange = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
+  }
+  const sendRequest = async () => {
+    const res = await axios
+      .post("http://localhost:5000/api/blog/add", {
+        title: inputs.title,
+        description: inputs.description,
+        image: inputs.imageURL,
+        user: localStorage.getItem("userId"),
+      })
+      .catch((err) => console.log(err));
+    // const data = await res.data;
+    // return data;
+    let data = null;
+    if (res) {
+      data = await res.data;
+      // console.log(data);
+    }
+    return data
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(inputs);
+    sendRequest().then(data => console.log(data))
+  }
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -34,7 +64,8 @@ const AddBlog = () => {
           <TextField name='description' onChange={handleChange} value={inputs.description} margin='auto' variant='outlined' />
           <InputLabel sx={labelStyles}>ImageURL</InputLabel>
           <TextField name='imageURL' onChange={handleChange} value={inputs.imageURL} margin='auto' variant='outlined' />
-          <Button type='submit'>Submit</Button>
+
+          <Button sx={{ mt: 2, borderRadius: 4 }} variant='contained' color='warning' type='submit'>Submit</Button>
         </Box>
       </form>
     </div>

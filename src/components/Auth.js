@@ -8,6 +8,7 @@ const Auth = (props) => {
   const [inputs, setInputs] = useState({
     name: "", email: "", password: ""
   })
+  
   const [isSignup, setIsSignup] = useState(false);
 
   const handleChange = (e) => {

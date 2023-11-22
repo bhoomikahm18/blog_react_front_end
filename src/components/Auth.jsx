@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 
-function Auth() {
+function Auth(props) {
   const [inputs, setInputs] = useState({
     name: "", email: "", password: ""
   })
@@ -21,10 +21,16 @@ function Auth() {
       name: inputs.name,
       email: inputs.email,
       password: inputs.password
-    }).catch(err => console.log(err))
-    // console.log(res);
+    }).catch(err => {
+      if (err.response.request.status === 404) {
+        alert("User does not exist");
+        props.setIsLoggedIn(false);
+      } else if (err.response.request.status === 400) {
+        alert("Invalid password");
+        props.setIsLoggedIn(true);
+      }
+    })
     let data = await res.data;
-    // console.log(data);
     return data;
   }
 
@@ -33,9 +39,13 @@ function Auth() {
     e.preventDefault();
     // console.log(inputs);
     if (isSignup) {
-      sendRequest("signup").then(data => console.log(data))
+      sendRequest("signup")
+        .then(data => console.log(data))
+        .catch(err => "Error in signup")
     } else {
-      sendRequest("login").then(data => console.log(data))
+      sendRequest("login")
+        .then(data => console.log(data))
+        .catch(err => "Error in login")
     }
   }
 

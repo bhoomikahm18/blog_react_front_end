@@ -18,7 +18,7 @@ function Header(props) {
           {!props.isLoggedIn && <>
             <Button LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Login</Button>
             <Button LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Signup</Button></>}
-          {props.isLoggedIn && <Button LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Logout</Button>}
+          {props.isLoggedIn && < Button onClick={() => props.setIsLoggedIn(false)} LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Logout</Button>}
         </Box>
       </Toolbar>
     </AppBar >

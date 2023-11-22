@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <header>
-        <Header isLoggedIn={isLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       </header>
       <main>
         <Routes>

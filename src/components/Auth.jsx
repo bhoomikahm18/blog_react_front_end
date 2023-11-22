@@ -1,8 +1,10 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Auth(props) {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     name: "", email: "", password: ""
   })
@@ -27,7 +29,7 @@ function Auth(props) {
         props.setIsLoggedIn(false);
       } else if (err.response.request.status === 400) {
         alert("Invalid password");
-        props.setIsLoggedIn(true);
+        props.setIsLoggedIn(false);
       }
     })
     let data = await res.data;
@@ -37,14 +39,16 @@ function Auth(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // console.log(inputs);
     if (isSignup) {
       sendRequest("signup")
-        .then(data => console.log(data))
+        .then(data => navigate("/auth"))
         .catch(err => "Error in signup")
     } else {
       sendRequest("login")
-        .then(data => console.log(data))
+        .then(data => {
+          props.setIsLoggedIn(true)
+          navigate("/blogs")
+        })
         .catch(err => "Error in login")
     }
   }

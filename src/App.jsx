@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from './components/Header'
 import { Route, Routes } from 'react-router-dom'
 import Auth from './components/Auth.jsx'
@@ -8,10 +8,11 @@ import BlogDetail from './components/BlogDetail.jsx'
 import AddBlog from './components/AddBlog.jsx'
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
       <header>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} />
       </header>
       <main>
         <Routes>

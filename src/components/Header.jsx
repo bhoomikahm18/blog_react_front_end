@@ -9,7 +9,7 @@ function Header(props) {
     localStorage.clear();
     props.setIsLoggedIn(false);
   }
-  
+
   return (
     <AppBar position="sticky" sx={{ background: `linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,19,121,1) 0%, rgba(0,212,255,1) 100%)` }}>
       <Toolbar>
@@ -18,6 +18,7 @@ function Header(props) {
           <Tabs textColor="inherite" value={value} onChange={(e, val) => setValue(val)}>
             <Tab LinkComponent={Link} to="/blogs" label="All Blogs" />
             <Tab LinkComponent={Link} to="/myBlogs" label="My Blogs" />
+            <Tab LinkComponent={Link} to="/blogs/add" label="Add Blogs" />
           </Tabs>
         </Box>}
         <Box display="flex" marginLeft={"auto"}>

@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Blog from './Blog.jsx';
 
 function Blogs() {
-  const [blogs, setBlogs] = useState();
+  const [blogs, setBlogs] = useState([]);
 
   async function sendRequest() {
     const res = await axios
-      .get("http://localhost:5000/api/blog")
+      .get(`http://localhost:5000/api/blog`)
       .catch(err => console.log(err))
     const data = await res.data;
     return data;
@@ -21,7 +21,13 @@ function Blogs() {
 
   return (
     <div>
-      <Blog />
+      {(blogs.length != 0) && blogs.map((blog, index) =>
+        <Blog
+          user={blog.user.name}
+          description={blog.description}
+          imageURL={blog.image}
+          title={blog.title} />
+      )}
     </div>
   )
 }

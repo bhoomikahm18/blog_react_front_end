@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 
 function Header(props) {
   const [value, setValue] = useState(1);
+
+  function handleLogout() {
+    localStorage.clear();
+    props.setIsLoggedIn(false);
+  }
+  
   return (
     <AppBar position="sticky" sx={{ background: `linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,19,121,1) 0%, rgba(0,212,255,1) 100%)` }}>
       <Toolbar>
@@ -18,7 +24,7 @@ function Header(props) {
           {!props.isLoggedIn && <>
             <Button LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Login</Button>
             <Button LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Signup</Button></>}
-          {props.isLoggedIn && < Button onClick={() => props.setIsLoggedIn(false)} LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Logout</Button>}
+          {props.isLoggedIn && < Button onClick={handleLogout} LinkComponent={Link} to="/auth" variant="contained" sx={{ margin: 1, borderRadius: 10 }} color="warning">Logout</Button>}
         </Box>
       </Toolbar>
     </AppBar >

@@ -45,6 +45,7 @@ function Auth(props) {
         .catch(err => "Error in signup")
     } else {
       sendRequest("login")
+        .then(data => localStorage.setItem("userID", data.user._id))
         .then(data => {
           props.setIsLoggedIn(true)
           navigate("/blogs")

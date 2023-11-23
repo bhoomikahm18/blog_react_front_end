@@ -16,11 +16,13 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path='/auth' element={<Auth setIsLoggedIn={setIsLoggedIn}/>} />
-          <Route path='/blogs' element={<Blogs />} />
-          <Route path='/myBlogs' element={<UserBlog />} />
-          <Route path='/myBlogs/:id' element={<BlogDetail />} />
-          <Route path='/blogs/add' element={<AddBlog />} />
+          {!isLoggedIn ? <Route path='/auth' element={<Auth setIsLoggedIn={setIsLoggedIn} />} /> :
+            <>
+              <Route path='/blogs' element={<Blogs />} />
+              <Route path='/myBlogs' element={<UserBlog />} />
+              <Route path='/myBlogs/:id' element={<BlogDetail />} />
+              <Route path='/blogs/add' element={<AddBlog />} />
+            </>}
         </Routes>
       </main>
     </>

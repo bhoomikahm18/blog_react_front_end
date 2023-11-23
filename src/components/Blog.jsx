@@ -7,14 +7,15 @@ import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useStyles } from './utils';
 
 function Blog(props) {
+  const classes = useStyles();
   const navigate = useNavigate();
 
   function handleEdit(e) {
@@ -27,7 +28,7 @@ function Blog(props) {
     return data;
   }
   function handleDelete() {
-    deleteRequest().then(data => console.log(data))
+    deleteRequest().then(() => navigate("/")).then(() => navigate("/blogs"))
   }
   return (
     <Card sx={{
@@ -39,21 +40,17 @@ function Blog(props) {
 
       {props.isUser && (
         <Box display='flex'>
-          <IconButton onClick={handleEdit} sx={{ marginLeft: 'auto' }}><EditIcon /></IconButton>
-          <IconButton onClick={handleDelete}><DeleteForeverIcon /></IconButton>
+          <IconButton onClick={handleEdit} sx={{ marginLeft: 'auto' }}><EditIcon color='warning' /></IconButton>
+          <IconButton onClick={handleDelete}><DeleteForeverIcon color='error' /></IconButton>
         </Box>
       )}
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar className={classes.font} sx={{ bgcolor: red[500] }} aria-label="recipe">
             {props.user ? props.user.charAt(0) : ""}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+
         title={props.title}
       />
       <CardMedia
@@ -63,7 +60,9 @@ function Blog(props) {
         alt="Paella dish"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <hr />
+        <br />
+        <Typography className={classes.font} variant="body2" color="text.secondary">
           <b>{props.user}</b>{":"}{props.description}
         </Typography>
       </CardContent>
